@@ -1,0 +1,33 @@
+couchdb-notify
+==============
+
+Version 0.1-UNRELEASED
+
+Dependencies
+------------
+
+Depends on Perl and the modules: JSON, LWP::UserAgent, and Gtk2::Notify.
+
+Copy or symbolically link the CouchNotify directory into your Perl include
+path. For example, if you are running Perl 5.12.4 then put a symbolic link in
+/usr/local/lib/perl/5.12.4 pointing to ./CouchNotify.
+
+Install irssi Script
+--------------------
+
+See http://scripts.irssi.org/ for how to install an irssi script.
+
+Automatically Running Client
+----------------------------
+
+You probably want to run the client.plx code as a cron job so that messages are
+automatically picked up from the server. Here is an example crontab line:
+
+*/1 *   * * *   sbisbee DISPLAY=:0.0 /home/sbisbee/src/couchdb-notify/client.plx > /dev/null 2>&1
+
+This line runs every minute as the user 'sbisbee' and redirects any output to
+/dev/null. Note that the DISPLAY environment variable is set here - this is
+necessary for Gtk2::Notify to know which display to send the notifications to.
+
+Configuring
+-----------
