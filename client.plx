@@ -6,6 +6,7 @@ use warnings;
 use LWP::UserAgent;
 use JSON;
 use Gtk2::Notify -init, "couchdb-notify";
+use CouchNotify::Utils;
 
 sub onError {
   my $msg = "Error: $_[0]\n";
@@ -23,45 +24,9 @@ sub notify {
   $guiNote->show;
 }
 
-# based on $conf->{server} structure in config
-sub buildURL {
-  my ($server, $url) = ($_[0], "");
-
-  onError('Invalid server protocol.', 1)
-    if $server->{proto} ne 'http' && $server->{proto} ne 'https';
-
-  $url .= $server->{proto} . "://";
-
-  if($server->{user}) {
-    onError("User specified but no password", 1) if !$server->{pass};
-
-    $url .= $server->{user} . ":" . $server->{pass} . "@";
-  }
-
-  $url .= $server->{host};
-
-  $url .= ":" . $server->{port} if $server->{port};
-
-  $url .= "/" . $server->{db};
-
-  return $url;
-}
-
 # Parse in the config file
-my $conf = '';
-
-open(FILE, "<", "/home/sbisbee/.couchdb-notify") or die $!;
-
-while(<FILE>) {
-  $_ =~ s/\015?\012?$//;
-  $conf .= $_ unless $_ eq '';
-}
-
-close(FILE);
-
-$conf = decode_json($conf);
-
-my $baseURL = buildURL($conf->{server});
+my $conf = CouchNotify::Utils::getConf('/home/sbisbee/.couchdb-notify');
+my $baseURL = CouchNotify::Utils::buildURL($conf->{server});
 
 my $ua = LWP::UserAgent->new;
 $ua->agent('couchdb-notify-consumer/0.1');
