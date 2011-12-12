@@ -31,3 +31,8 @@ necessary for Gtk2::Notify to know which display to send the notifications to.
 
 Configuring
 -----------
+
+Why Perl?
+---------
+
+Because irssi made me.
