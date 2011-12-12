@@ -1,0 +1,7 @@
+  - more docu
+
+  - make config location configurable (command line arg)
+
+  - config defaults
+
+  - make http code in irssi.pl non-blocking
