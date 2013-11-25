@@ -55,7 +55,8 @@ my $updates = [];
 
 foreach my $row (@$rows) {
   $row = $row->{doc};
-  notify("[" . $row->{server} . "] " . $row->{msg});
+
+  notify("[" . $row->{server} . "] " . $row->{msg}) if $row->{server} && $row->{msg};
 
   $row->{clientsSeen} = [] if !$row->{clientsSeen};
   push(@{$row->{clientsSeen}}, $conf->{clientID});
