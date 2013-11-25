@@ -8,6 +8,9 @@ use JSON;
 use Gtk2::Notify -init, "couchdb-notify";
 use CouchNotify::Utils;
 
+# Used so we only display one notification per run.
+my $notified = 0;
+
 sub onError {
   my $msg = "Error: $_[0]\n";
 
@@ -20,8 +23,12 @@ sub onError {
 }
 
 sub notify {
-  my $guiNote = Gtk2::Notify->new('couchdb-notify', $_[0]);
-  $guiNote->show;
+  if(!$notified) {
+    my $guiNote = Gtk2::Notify->new('couchdb-notify', $_[0]);
+    $guiNote->show;
+
+    $notified = 1;
+  }
 }
 
 # Parse in the config file
