@@ -35,4 +35,18 @@ ddoc.filters = {
   }
 };
 
+ddoc.views = {};
+
+ddoc.views.clientsSeenCount = {};
+ddoc.views.clientsSeenCount.map = function(doc) {
+  if(doc.clientsSeen) {
+    emit('_total', null);
+
+    doc.clientsSeen.forEach(function(client) {
+      emit(client, null);
+    });
+  }
+};
+ddoc.views.clientsSeenCount.reduce = '_count';
+
 module.exports = ddoc;
